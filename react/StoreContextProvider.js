@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 
 import { OrderFormProvider } from './OrderFormContext'
 import { DataLayerProvider } from './components/withDataLayer'
+import { withConsoleListenerHOC } from './components/ConsoleListenerHOC'
 import { gtmScript, gtmFrame } from './scripts/gtm'
 
 const APP_LOCATOR = 'vtex.store'
@@ -30,11 +31,17 @@ class StoreContextProvider extends Component {
       metaTagKeywords,
       storeName,
     } = settings
-    const scripts = gtmId ? [{
-      'type': 'application/javascript',
-      'innerHTML': gtmScript(gtmId),
-    }] : []
-    const noscripts = gtmId ? [{ id: 'gtm_frame', innerHTML: gtmFrame(gtmId) }] : []
+    const scripts = gtmId
+      ? [
+          {
+            type: 'application/javascript',
+            innerHTML: gtmScript(gtmId),
+          },
+        ]
+      : []
+    const noscripts = gtmId
+      ? [{ id: 'gtm_frame', innerHTML: gtmFrame(gtmId) }]
+      : []
     return (
       <DataLayerProvider
         value={{
@@ -67,4 +74,4 @@ StoreContextProvider.contextTypes = {
   getSettings: PropTypes.func,
 }
 
-export default StoreContextProvider
+export default withConsoleListenerHOC(StoreContextProvider)
