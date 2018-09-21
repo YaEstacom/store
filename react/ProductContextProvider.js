@@ -48,6 +48,10 @@ class ProductContextProvider extends Component {
     this.checkNotFoundProduct();
   }
 
+  componentDidUpdate() {
+    this.checkNotFoundProduct();
+  }
+
   stripCategory(category) {
     return category && category.replace(/^\/|\/$/g, '')
   }
@@ -163,8 +167,6 @@ class ProductContextProvider extends Component {
       params: { slug },
       client,
     } = this.props
-
-    this.checkNotFoundProduct();
 
     const productPreview = client.readFragment({
       id: cacheLocator.product(slug),
